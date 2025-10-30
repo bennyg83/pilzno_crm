@@ -1,0 +1,6 @@
+ firstName | lastName | dateOfBirth | hebrewBirthDate 
+-----------+----------+-------------+-----------------
+ Binyamin  | Goldberg | 1983-08-10  | 3 Elul 5743
+ Melanie   | Goldberg | 1984-03-08  | 5 Adar II 5744
+(2 rows)
+

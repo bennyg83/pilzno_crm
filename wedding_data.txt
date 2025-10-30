@@ -1,0 +1,4 @@
+ familyName | weddingAnniversary | hebrewWeddingAnniversary 
+------------+--------------------+--------------------------
+(0 rows)
+
