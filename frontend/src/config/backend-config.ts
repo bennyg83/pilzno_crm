@@ -21,21 +21,18 @@ const getApiBaseUrl = (): string => {
     // Try to use HTTPS with Tailscale MagicDNS first (recommended for Mixed Content)
     // Fallback to HTTP IP if HTTPS doesn't work
     // Tailscale MagicDNS domain: crm-mini.tail34e202.ts.net
-    // IP: 100.74.73.107
+    // IP: 100.74.73.107 (HTTP fallback: http://100.74.73.107:3002)
     
     // Prefer HTTPS if available (fixes Mixed Content)
-    const httpsUrl = 'https://crm-mini.tail34e202.ts.net:3002'
-    const httpUrl = 'http://100.74.73.107:3002'
-    
     // If GitHub Actions secret is set, use it (could be either HTTP or HTTPS)
-    // Otherwise, try HTTPS first, fallback to HTTP
+    // Otherwise, try HTTPS first
     console.warn('⚠️ GitHub Pages detected but no VITE_API_BASE_URL environment variable. Set BACKEND_API_URL secret in GitHub Actions.')
-    console.log('🔐 Attempting HTTPS first (https://crm-mini.tail34e202.ts.net:3002), will fallback to HTTP if needed')
+    console.log('🔐 Attempting HTTPS first (https://crm-mini.tail34e202.ts.net:3002)')
     
     // Use HTTPS to avoid Mixed Content issues
     // Note: Tailscale MagicDNS should support HTTPS, but may require cert setup
     // If HTTPS fails, browsers will fallback or show warning
-    return httpsUrl
+    return 'https://crm-mini.tail34e202.ts.net:3002'
   }
   
   // 3. Default: Local development
