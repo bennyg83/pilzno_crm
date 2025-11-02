@@ -128,6 +128,11 @@ router.post('/login', asyncHandler(async (req: Request, res: Response) => {
   
   console.log('✅ Password verified successfully');
 
+  // Update last login timestamp for user tracking
+  user.lastLoginAt = new Date();
+  await userRepository.save(user);
+  console.log('✅ Last login timestamp updated');
+
   // Generate JWT token
   const jwtSecret = process.env.JWT_SECRET || 'pilzno_synagogue_jwt_secret_key_2024';
   const token = jwt.sign(

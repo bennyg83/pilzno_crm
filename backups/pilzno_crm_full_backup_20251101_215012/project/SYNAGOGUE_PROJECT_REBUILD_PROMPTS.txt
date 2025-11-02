@@ -1,0 +1,464 @@
+PILZNO SYNAGOGUE MANAGEMENT SYSTEM - COMPLETE REBUILD PROMPTS
+================================================================
+
+This document contains the complete step-by-step prompts to rebuild the Pilzno Synagogue Management System from a generic CRM to a full-featured Jewish community management platform.
+
+IMPORTANT NOTES:
+- This is a Windows development environment
+- We are using PostgreSQL, NOT MongoDB
+- The system should be completely isolated from any other CRM projects
+- All business CRM terminology should be replaced with synagogue-specific terms
+
+=================================================================
+PHASE 1: PROJECT TRANSFORMATION AND SETUP
+=================================================================
+
+PROMPT 1 - Initial Project Analysis and Transformation:
+"""
+I have an existing CRM project that I need to transform into a Synagogue Management System called "Pilzno Synagogue Management System". Please:
+
+1. Scan the current project structure and identify all business CRM components
+2. Remove ALL Google/Gmail integration components completely 
+3. Transform the project branding from generic CRM to synagogue management:
+   - Update all package.json files with synagogue branding
+   - Change page titles and descriptions
+   - Update README.md for synagogue use case
+4. Remove business-specific pages like Accounts, Contacts, Google integrations
+5. Update navigation to reflect synagogue features: Families, Members, Events, Donations
+6. Add this heraldic logo to the frontend public directory as logo.svg:
+   [Include the SVG with crown, shield with quadrants, and two lions]
+7. Ensure Docker isolation with unique container names using "pilzno-synagogue-" prefix
+8. Replace all business CRM terminology in the dashboard with synagogue metrics
+
+Key transformation goals:
+- Family Management instead of Account Management  
+- Individual Members instead of Contacts
+- Jewish lifecycle events and Hebrew date support
+- Donation and pledge tracking
+- Community health metrics instead of business metrics
+"""
+
+PROMPT 2 - Database Schema Design:
+"""
+Create a comprehensive database schema for the Pilzno Synagogue Management System using TypeORM entities. Include:
+
+CORE ENTITIES:
+
+1. **Family Entity** (families table):
+   - UUID primary key
+   - familyName (surname like "Goldberg Family")
+   - hebrewFamilyName (optional Hebrew name)
+   - primaryEmail, secondaryEmail
+   - phone, emergencyContact
+   - Full address fields (address, city, state, zipCode, country)
+   - membershipStatus enum: member, prospective, visitor, former
+   - membershipStartDate, membershipEndDate
+   - annualPledge (decimal), totalDonations (decimal)
+   - lastDonationDate, lastContactDate, nextFollowUpDate
+   - familyHealth enum: excellent, good, needs-attention, at-risk
+   - dietaryRestrictions, specialNeeds, familyNotes (text fields)
+   - receiveNewsletter, receiveEventNotifications (booleans)
+   - isFoundingFamily, isBoardFamily (booleans)
+   - Relationship to FamilyTier
+   - OneToMany relationships: members, events, notes, donations, emails
+
+2. **FamilyMember Entity** (family_members table):
+   - UUID primary key
+   - firstName, lastName, hebrewFirstName, hebrewLastName, nickname
+   - email, phone (personal contact info)
+   - dateOfBirth (Gregorian), hebrewBirthDate (string)
+   - gender enum: male, female, other
+   - relationshipToHead enum: self, spouse, child, parent, sibling, other
+   - isActive, isPrimaryContact (booleans)
+   - Jewish lifecycle fields: barBatMitzvahDate, hebrewBarBatMitzvahDate
+   - isCohen, isLevi (boolean for priestly lineage)
+   - israeliCitizenship, aliyahDate
+   - education, profession, synagogueRoles, skills, interests (text)
+   - Memorial fields: dateOfDeath, hebrewDeathDate, memorialInstructions
+   - Contact preferences: receiveEmails, receiveTexts, emergencyContact
+   - medicalNotes, accessibilityNeeds, notes
+   - Helper methods: getFullName(), getAge(), isChild(), isBirthdayThisMonth(), etc.
+
+3. **FamilyTier Entity** (family_tiers table):
+   - Membership tiers like "Founding Family", "Life Members", "Young Professional"
+   - Tier name, description, minimumDonation, benefits, priority level
+
+4. **Event Entity** (events table):
+   - Jewish lifecycle and community events
+   - title, description, eventType enum (bar_mitzvah, wedding, yahrzeit, community, holiday)
+   - dueDate, hebrewDate, location, status enum
+   - Relationships to Family and FamilyMember
+   - recurrencePattern for recurring events
+
+5. **Donation Entity** (donations table):
+   - amount (decimal), donationDate, paymentMethod enum
+   - donationType enum (general, building, torah, memorial, holiday)
+   - recurringFrequency enum (one-time, monthly, quarterly, annual)
+   - fundName, isAnonymous, receiptSent
+   - Relationships to Family and FamilyMember
+
+6. **Enhanced Note Entity**:
+   - Extend existing Note entity to support both old CRM and new synagogue use
+   - Add familyId, familyMemberId relationships
+   - Update type enum to include synagogue-specific note types
+   - Keep backward compatibility with accountId, contactId
+
+7. **Enhanced Email Entity**:
+   - Remove Gmail-specific fields (gmailMessageId, gmailThreadId, gmailLabels)
+   - Add relationships to Family and FamilyMember
+   - Support for general synagogue communications
+
+Ensure all entities have proper TypeORM decorators, validation, timestamps, and helper methods.
+"""
+
+=================================================================
+PHASE 2: BACKEND API DEVELOPMENT
+=================================================================
+
+PROMPT 3 - Family Management API:
+"""
+Create a comprehensive Family Management API with the following features:
+
+1. **FamilyController** with endpoints:
+   - GET /api/families - List all families with advanced search and filtering
+     * Search by family name, Hebrew name, email, phone, member names
+     * Filter by membershipStatus, familyHealth, membership tier
+     * Pagination support (page, limit parameters)
+     * Sorting options
+   - GET /api/families/statistics - Family statistics for dashboard
+   - GET /api/families/by-lastname/:lastName - Handle families with same surnames
+   - GET /api/families/:id - Get family details with all relationships
+   - POST /api/families - Create new family with duplicate name detection
+   - POST /api/families/force-create - Force create after duplicate warning
+   - PUT /api/families/:id - Update family information
+   - DELETE /api/families/:id - Delete with confirmation and dependency checks
+
+2. **Smart Duplicate Detection**:
+   - When creating families, check for similar family names
+   - Return 409 status with existing family suggestions
+   - Show distinguishing information like "Cohen (David)" vs "Cohen (Sarah)"
+   - Allow forced creation if intentional
+
+3. **Advanced Search Features**:
+   - Full-text search across family name, Hebrew names, emails, phone numbers
+   - Search within family member names too
+   - Case-insensitive, partial matching
+   - Support for Hebrew character searching
+
+4. **Family Statistics**:
+   - Total families, active families, prospective families
+   - At-risk families count
+   - Total members, children count, adult count
+   - Average donations, total donations
+   - Membership health distribution
+
+All endpoints should use authentication middleware and proper error handling.
+"""
+
+PROMPT 4 - Family Member Management API:
+"""
+Create a comprehensive FamilyMember Management API with lifecycle event support:
+
+1. **FamilyMemberController** with endpoints:
+   - GET /api/family-members - List members with advanced filtering
+     * Search by name, Hebrew name, email, phone
+     * Filter by familyId, relationshipToHead, gender, age ranges, active status
+     * Support for both grid and list view pagination
+   - GET /api/family-members/birthdays-this-month - Jewish lifecycle tracking
+   - GET /api/family-members/yahrzeits-this-month - Memorial dates
+   - GET /api/family-members/upcoming-bnai-mitzvah - Upcoming Bar/Bat Mitzvahs
+   - GET /api/family-members/:id - Individual member details
+   - POST /api/family-members - Create new member
+   - PUT /api/family-members/:id - Update member information
+   - DELETE /api/family-members/:id - Delete with family impact checks
+
+2. **Lifecycle Event Management**:
+   - POST /api/family-members/:id/transfer - Transfer member between families (marriage/divorce)
+   - POST /api/family-members/:id/create-family - Create new family for member (marriage)
+   - POST /api/family-members/:id/mark-deceased - Memorial management
+
+3. **Jewish Lifecycle Features**:
+   - Birthday tracking with Hebrew dates
+   - Yahrzeit (memorial anniversary) tracking
+   - Bar/Bat Mitzvah date management
+   - Kohen/Levi status tracking
+   - Hebrew name support throughout
+
+4. **Member Relationship Management**:
+   - Proper validation of family relationships
+   - Head of household designation
+   - Primary contact management
+   - Family hierarchy validation
+
+5. **Advanced Member Filtering**:
+   - Age-based filtering (children, teens, adults, seniors)
+   - Role-based filtering (head of household, spouses, children)
+   - Activity status filtering
+   - Gender and relationship filtering
+
+Include proper error handling, validation, and authentication on all endpoints.
+"""
+
+PROMPT 5 - Backend Routes and Integration:
+"""
+1. Create route files:
+   - /api/families routes with FamilyController
+   - /api/family-members routes with FamilyMemberController
+   - Add authentication middleware to all routes
+
+2. Update main backend index.ts:
+   - Import and register the new family routes
+   - Ensure proper order and middleware application
+
+3. Fix any TypeORM type inference issues:
+   - Ensure entity save/find operations return proper types
+   - Handle any compilation errors with type assertions if needed
+
+4. Verify authentication middleware:
+   - Ensure the auth middleware properly validates JWT tokens
+   - Check that it works with the existing authentication system
+
+5. Test API integration:
+   - Ensure all endpoints compile without errors
+   - Verify proper database entity relationships
+   - Check that the API responds correctly to authentication
+"""
+
+=================================================================
+PHASE 3: FRONTEND DEVELOPMENT
+=================================================================
+
+PROMPT 6 - Family Management Frontend:
+"""
+Create a comprehensive Family Management page (FamiliesPage.tsx) with:
+
+1. **Page Features**:
+   - Family list view with cards showing family information
+   - Search functionality (family name, Hebrew name, email, phone, member names)
+   - Advanced filtering (membership status, family health)
+   - Pagination for large family lists
+   - Create new family dialog with full form
+
+2. **Family Cards Display**:
+   - Family name with Hebrew name support
+   - Head of household information
+   - Member count and children indicator
+   - Membership status and family health chips
+   - Contact information (email, phone, address)
+   - Total donations display
+   - Action menu (view details, edit, view members)
+
+3. **Family Creation Form**:
+   - All family fields including Hebrew names
+   - Address fields (street, city, state, ZIP)
+   - Membership status selection
+   - Validation and error handling
+
+4. **Duplicate Family Warning**:
+   - Handle 409 responses for duplicate family names
+   - Show existing families with similar names
+   - Allow force creation after review
+   - Clear distinguishing information display
+
+5. **Integration with API Service**:
+   - Use apiService methods instead of direct fetch calls
+   - Proper error handling and loading states
+   - Authentication header management
+
+6. **Empty States and Loading**:
+   - Loading spinners during API calls
+   - Empty state when no families found
+   - Error messages for failed operations
+   - Success feedback for operations
+
+The page should be fully responsive and follow Material-UI design patterns.
+"""
+
+PROMPT 7 - Member Management Frontend:
+"""
+Create a comprehensive Member Management page (MembersPage.tsx) with:
+
+1. **Multiple View Modes**:
+   - Tab-based navigation: All Members, Birthdays This Month, Yahrzeits This Month, Upcoming B'nai Mitzvah
+   - Grid view and list view toggle for All Members
+   - Table view with sortable columns
+
+2. **Advanced Member Filtering**:
+   - Search by name, Hebrew name, email, phone
+   - Filter by relationship (head of household, spouse, child, etc.)
+   - Filter by gender, active status
+   - Family-specific filtering (when accessed from family page)
+
+3. **Member Cards/Rows Display**:
+   - Full name with Hebrew name and nickname
+   - Family affiliation
+   - Relationship to head of household
+   - Age and life stage (child, teen, adult, senior)
+   - Contact information
+   - Special status indicators (primary contact, etc.)
+
+4. **Jewish Lifecycle Tracking**:
+   - Birthday list with ages and celebration dates
+   - Yahrzeit list with memorial information
+   - Upcoming Bar/Bat Mitzvah tracking with countdown
+   - Hebrew date display where applicable
+
+5. **Member Management Features**:
+   - Add new member functionality
+   - Edit member information
+   - View member details
+   - Transfer member to different family
+   - Family relationship management
+
+6. **Integration Features**:
+   - Link to family pages from member cards
+   - Navigate between families and members seamlessly
+   - Proper authentication and API integration
+
+Include empty states, loading indicators, and comprehensive error handling.
+"""
+
+PROMPT 8 - Dashboard Updates and Navigation:
+"""
+1. **Update Dashboard with Synagogue Metrics**:
+   - Replace ALL business CRM metrics with synagogue-focused ones
+   - Total Families, Community Members, Upcoming Events, Monthly Donations
+   - Community Health percentage, Active Tasks, Monthly Pledges
+   - Make all dashboard tiles clickable to navigate to corresponding pages
+   - Use proper synagogue terminology throughout
+
+2. **Update Navigation Sidebar**:
+   - Add "Members" navigation item
+   - Ensure all navigation links point to functional pages
+   - Remove any remaining business CRM navigation items
+   - Update icons and labels for synagogue use
+
+3. **Update App Routing**:
+   - Replace "Coming Soon" placeholders with real pages
+   - Add routes for /families, /members, /membership, /pledges
+   - Ensure proper authentication on all routes
+
+4. **API Service Integration**:
+   - Add all Family and Member API methods to apiService
+   - Ensure proper authentication headers
+   - Handle error responses appropriately
+   - Support for all CRUD operations and special endpoints
+
+5. **Remove Remaining CRM Components**:
+   - Delete any unused business CRM pages
+   - Remove business-specific components
+   - Clean up unused imports and references
+   - Update login page branding
+"""
+
+=================================================================
+PHASE 4: FINAL INTEGRATION AND TESTING
+=================================================================
+
+PROMPT 9 - System Integration and Cleanup:
+"""
+1. **Authentication System Verification**:
+   - Ensure JWT authentication works properly with new endpoints
+   - Verify token validation and user authorization
+   - Check that authentication middleware is properly applied
+   - Test login flow and token refresh if applicable
+
+2. **Database Migration and Seeding**:
+   - Create proper TypeORM migrations for all new entities
+   - Ensure database schema is properly created
+   - Add any necessary seed data for testing
+   - Verify all entity relationships work correctly
+
+3. **Error Handling and Validation**:
+   - Add comprehensive input validation on all forms
+   - Proper error messages for user-facing operations
+   - Handle edge cases (empty states, network errors, etc.)
+   - Validate Hebrew text input and display
+
+4. **Docker Environment Optimization**:
+   - Ensure all containers start properly
+   - Verify database connectivity
+   - Check that environment variables are properly configured
+   - Test the complete Docker development workflow
+
+5. **Code Quality and Cleanup**:
+   - Remove any unused imports or dead code
+   - Fix TypeScript compilation errors
+   - Ensure consistent code formatting
+   - Update any remaining business CRM references
+
+6. **Testing and Verification**:
+   - Test all major user flows (create family, add members, etc.)
+   - Verify search and filtering functionality
+   - Test authentication and authorization
+   - Confirm Hebrew text support works properly
+"""
+
+PROMPT 10 - Final Feature Completion:
+"""
+Complete the synagogue management system with these final touches:
+
+1. **Feature Completeness Check**:
+   - Verify all navigation links lead to functional pages
+   - Ensure dashboard tiles properly navigate to corresponding sections
+   - Test family creation with duplicate detection
+   - Test member management and lifecycle events
+
+2. **Synagogue-Specific Features**:
+   - Hebrew name display and input throughout the system
+   - Jewish calendar date support where applicable
+   - Proper handling of family relationships and transfers
+   - Donation and pledge tracking integration
+
+3. **User Experience Polish**:
+   - Responsive design on all pages
+   - Proper loading states and error handling
+   - Intuitive navigation and workflow
+   - Clear visual hierarchy and information display
+
+4. **System Reliability**:
+   - Stable database connections
+   - Proper error recovery
+   - Consistent authentication behavior
+   - Reliable Docker container startup
+
+5. **Documentation Updates**:
+   - Update README with synagogue management features
+   - Document the family and member management workflows
+   - Include setup instructions for the synagogue system
+   - Update any API documentation
+
+The final system should be a complete, functional synagogue management platform that handles families, individual members, Jewish lifecycle events, and community management without any remaining business CRM artifacts.
+"""
+
+=================================================================
+ADDITIONAL TECHNICAL SPECIFICATIONS
+=================================================================
+
+TECHNOLOGY STACK:
+- Frontend: React 18 with TypeScript, Material-UI (MUI), Vite
+- Backend: Node.js with Express, TypeScript, TypeORM
+- Database: PostgreSQL (NOT MongoDB)
+- Authentication: JWT-based authentication
+- Development: Docker Compose for containerization
+- Environment: Windows development environment
+
+KEY REQUIREMENTS:
+- Complete isolation from other CRM projects
+- Support for Hebrew text and Jewish calendar dates
+- Family-centric data model with individual member tracking
+- Jewish lifecycle event management
+- Donation and pledge tracking
+- Community health and engagement metrics
+- Professional synagogue branding throughout
+
+IMPORTANT NOTES:
+- Remove ALL Google/Gmail integration
+- No MongoDB dependencies
+- Windows-specific Docker setup
+- Proper authentication on all new endpoints
+- Comprehensive error handling and validation
+- Responsive design with modern UI/UX
+- Support for complex family relationships and changes
+
+This document provides the complete roadmap to rebuild the Pilzno Synagogue Management System from scratch using Claude Sonnet 4. 

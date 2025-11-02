@@ -264,11 +264,24 @@ const FamilyMemberFormDialog: React.FC<FamilyMemberFormDialogProps> = ({
         aliyahDate: safeAliyahDate
       })
       
-      // Initialize const dates to prevent drift when editing existing members
+      // Initialize dates to prevent drift when editing existing members
+      // IMPORTANT: Use STORED Hebrew date from database, don't recalculate!
+      // This prevents date shifts when editing existing entries
       if (safeDateOfBirth && safeDateOfBirth.isValid()) {
-        const datePair = convertToHebrewDate(safeDateOfBirth)
-        setGregorianDate(datePair.gregorianDate)
-        setHebrewDate(datePair.hebrewDate)
+        // Use stored Hebrew date from database if available (prevents recalculation drift)
+        const storedHebrewDate = member.hebrewBirthDate || ''
+        
+        // Only recalculate if Hebrew date is missing (for backwards compatibility)
+        if (!storedHebrewDate) {
+          const datePair = convertToHebrewDate(safeDateOfBirth)
+          setGregorianDate(datePair.gregorianDate)
+          setHebrewDate(datePair.hebrewDate)
+        } else {
+          // Use stored dates as-is to prevent any shifts
+          setGregorianDate(safeDateOfBirth.format('MM-DD-YYYY'))
+          setHebrewDate(storedHebrewDate)
+          console.log('✅ Using stored Hebrew date to prevent drift:', storedHebrewDate)
+        }
       } else {
         setGregorianDate('')
         setHebrewDate('')

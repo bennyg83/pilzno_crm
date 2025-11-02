@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles that work alongside Material-UI */
+@layer base {
+  /* Base styles can go here if needed */
+}
+
+@layer components {
+  /* Component-level styles */
+}
+
+@layer utilities {
+  /* Utility classes */
+}
+

@@ -1,0 +1,22 @@
+{
+  "firstName": "Test",
+  "lastName": "Member",
+  "hebrewFirstName": "בדיקה",
+  "hebrewLastName": "חבר",
+  "email": "test.member@example.com",
+  "phone": "+972-50-123-4567",
+  "cellPhone": "+972-50-987-6543",
+  "relationshipInFamily": "son",
+  "familyId": "fa414f4d-c7b4-4bc4-a4e8-7721acf4b92e",
+  "isActive": true,
+  "mothersHebrewName": "שרה בת רבקה",
+  "fathersHebrewName": "יוסף בן אברהם",
+  "isCohen": false,
+  "isLevi": false,
+  "isYisroel": true,
+  "title": "Mr.",
+  "israeliCitizenship": true,
+  "dateOfBirth": "2000-01-01",
+  "hebrewBirthDate": "25 Tevet 5760",
+  "memorialInstructions": "Father: 15 Nissan 5740; Mother: 20 Sivan 5745"
+}

@@ -1,0 +1,5 @@
+                  id                  |   familyName    |     primaryEmail     |         createdAt          | isFoundingFamily | isBoardFamily 
+--------------------------------------+-----------------+----------------------+----------------------------+------------------+---------------
+ 58d27d55-21d7-46ec-9ba9-8f5ef037f873 | Goldberg Family | goldberg@example.com | 2025-08-22 07:15:58.602481 | t                | f
+(1 row)
+

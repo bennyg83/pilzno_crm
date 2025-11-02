@@ -31,8 +31,34 @@ app.use((req, res, next) => {
 
 // Security middleware
 app.use(helmet());
+// CORS configuration - allows local development and GitHub Pages
+// Supports Tailscale URLs via environment variable
+const allowedOrigins = [
+  'http://localhost:3003',
+  'http://127.0.0.1:3003',
+  'http://localhost:3000',
+  'https://bennyg83.github.io',
+  ...(process.env.TAILSCALE_URL ? [process.env.TAILSCALE_URL.replace(/\/$/, '')] : []),
+  ...(process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(',') : [])
+].filter(Boolean);
+
 app.use(cors({
-  origin: ['http://localhost:3003', 'http://127.0.0.1:3003'],
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, Postman, etc.)
+    if (!origin) {
+      return callback(null, true);
+    }
+    
+    // Check if origin is allowed
+    if (allowedOrigins.some(allowed => origin.startsWith(allowed))) {
+      return callback(null, true);
+    }
+    
+    // Log blocked origins for debugging
+    console.log(`🚫 CORS blocked origin: ${origin}`);
+    console.log(`   Allowed origins: ${allowedOrigins.join(', ')}`);
+    callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']

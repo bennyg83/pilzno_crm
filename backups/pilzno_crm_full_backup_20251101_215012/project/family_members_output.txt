@@ -1,0 +1,7 @@
+   familyName    | firstName | lastName |            email            |               familyId               
+-----------------+-----------+----------+-----------------------------+--------------------------------------
+ Goldberg        | Binyamin  | Goldberg | binyamin.goldberg@gmail.com | bc9ff09b-cd9e-410c-89f4-33e68cd81013
+ Goldberg        | John      | Smith    | binyamin.goldberg@gmail.com | bc9ff09b-cd9e-410c-89f4-33e68cd81013
+ Goldberg Family | David     | Goldberg | david.goldberg@example.com  | 58d27d55-21d7-46ec-9ba9-8f5ef037f873
+(3 rows)
+

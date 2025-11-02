@@ -1,0 +1,9 @@
+=== Git Remote Information ===
+origin	https://github.com/bennyg83/pilzno_crm.git (fetch)
+origin	https://github.com/bennyg83/pilzno_crm.git (push)
+
+=== Current Branch ===
+main
+
+=== Latest Commit ===
+4f54726 docs: Add comprehensive conversation backup for project handoff
