@@ -22,8 +22,9 @@ const getApiBaseUrl = (): string => {
     // Note: This is a fallback - GitHub Actions should set VITE_API_BASE_URL via secret
     // For GitHub Pages, the backend URL should be set in GitHub Actions secrets as BACKEND_API_URL
     console.warn('⚠️ GitHub Pages detected but no VITE_API_BASE_URL environment variable. Set BACKEND_API_URL secret in GitHub Actions.')
-    // Fallback - this won't work but prevents errors
-    return 'http://localhost:3002'
+    // CRITICAL: For Mixed Content issues, we need to use the Tailscale IP directly
+    // Use http (not https) because Tailscale is already encrypted
+    return 'http://100.74.73.107:3002'
   }
   
   // 3. Default: Local development
