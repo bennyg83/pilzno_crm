@@ -1,0 +1,3 @@
+﻿2025-11-03T20:41:38.7184531Z Evaluate and set environment url
+2025-11-03T20:41:38.7189606Z Evaluated environment url: https://bennyg83.github.io/pilzno_crm/
+2025-11-03T20:41:38.7190594Z Cleaning up orphan processes

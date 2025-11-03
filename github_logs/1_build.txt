@@ -1,0 +1,245 @@
+﻿2025-11-03T20:40:38.5432281Z Current runner version: '2.329.0'
+2025-11-03T20:40:38.5456021Z ##[group]Runner Image Provisioner
+2025-11-03T20:40:38.5456932Z Hosted Compute Agent
+2025-11-03T20:40:38.5457575Z Version: 20251016.436
+2025-11-03T20:40:38.5458155Z Commit: 8ab8ac8bfd662a3739dab9fe09456aba92132568
+2025-11-03T20:40:38.5458848Z Build Date: 2025-10-15T20:44:12Z
+2025-11-03T20:40:38.5459497Z ##[endgroup]
+2025-11-03T20:40:38.5460026Z ##[group]Operating System
+2025-11-03T20:40:38.5460581Z Ubuntu
+2025-11-03T20:40:38.5461032Z 24.04.3
+2025-11-03T20:40:38.5461500Z LTS
+2025-11-03T20:40:38.5461939Z ##[endgroup]
+2025-11-03T20:40:38.5462416Z ##[group]Runner Image
+2025-11-03T20:40:38.5463470Z Image: ubuntu-24.04
+2025-11-03T20:40:38.5464006Z Version: 20251030.96.2
+2025-11-03T20:40:38.5465031Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20251030.96/images/ubuntu/Ubuntu2404-Readme.md
+2025-11-03T20:40:38.5466579Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20251030.96
+2025-11-03T20:40:38.5467615Z ##[endgroup]
+2025-11-03T20:40:38.5468646Z ##[group]GITHUB_TOKEN Permissions
+2025-11-03T20:40:38.5470558Z Contents: read
+2025-11-03T20:40:38.5471133Z Metadata: read
+2025-11-03T20:40:38.5471592Z Pages: write
+2025-11-03T20:40:38.5472122Z ##[endgroup]
+2025-11-03T20:40:38.5474696Z Secret source: Actions
+2025-11-03T20:40:38.5475356Z Prepare workflow directory
+2025-11-03T20:40:38.5795821Z Prepare all required actions
+2025-11-03T20:40:38.5833201Z Getting action download info
+2025-11-03T20:40:39.0476681Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-11-03T20:40:39.2236866Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2025-11-03T20:40:39.3128578Z Download action repository 'actions/upload-pages-artifact@v3' (SHA:56afc609e74202658d3ffba0e8f6dda462b719fa)
+2025-11-03T20:40:39.7999831Z Getting action download info
+2025-11-03T20:40:39.9872326Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2025-11-03T20:40:40.1339943Z Complete job name: build
+2025-11-03T20:40:40.2154230Z ##[group]Run actions/checkout@v4
+2025-11-03T20:40:40.2155644Z with:
+2025-11-03T20:40:40.2156455Z   repository: bennyg83/pilzno_crm
+2025-11-03T20:40:40.2157727Z   token: ***
+2025-11-03T20:40:40.2158464Z   ssh-strict: true
+2025-11-03T20:40:40.2159220Z   ssh-user: git
+2025-11-03T20:40:40.2159991Z   persist-credentials: true
+2025-11-03T20:40:40.2160865Z   clean: true
+2025-11-03T20:40:40.2161666Z   sparse-checkout-cone-mode: true
+2025-11-03T20:40:40.2162900Z   fetch-depth: 1
+2025-11-03T20:40:40.2163667Z   fetch-tags: false
+2025-11-03T20:40:40.2164445Z   show-progress: true
+2025-11-03T20:40:40.2165250Z   lfs: false
+2025-11-03T20:40:40.2165984Z   submodules: false
+2025-11-03T20:40:40.2166794Z   set-safe-directory: true
+2025-11-03T20:40:40.2168005Z ##[endgroup]
+2025-11-03T20:40:40.3269199Z Syncing repository: bennyg83/pilzno_crm
+2025-11-03T20:40:40.3271769Z ##[group]Getting Git version info
+2025-11-03T20:40:40.3273449Z Working directory is '/home/runner/work/pilzno_crm/pilzno_crm'
+2025-11-03T20:40:40.3275372Z [command]/usr/bin/git version
+2025-11-03T20:40:40.3354336Z git version 2.51.2
+2025-11-03T20:40:40.3380717Z ##[endgroup]
+2025-11-03T20:40:40.3396446Z Temporarily overriding HOME='/home/runner/work/_temp/85731e18-0e97-495b-b0c7-dec7c7296f19' before making global git config changes
+2025-11-03T20:40:40.3409702Z Adding repository directory to the temporary git global config as a safe directory
+2025-11-03T20:40:40.3412331Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/pilzno_crm/pilzno_crm
+2025-11-03T20:40:40.3451396Z Deleting the contents of '/home/runner/work/pilzno_crm/pilzno_crm'
+2025-11-03T20:40:40.3454800Z ##[group]Initializing the repository
+2025-11-03T20:40:40.3459441Z [command]/usr/bin/git init /home/runner/work/pilzno_crm/pilzno_crm
+2025-11-03T20:40:40.3570743Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-11-03T20:40:40.3574126Z hint: is subject to change. To configure the initial branch name to use in all
+2025-11-03T20:40:40.3577747Z hint: of your new repositories, which will suppress this warning, call:
+2025-11-03T20:40:40.3580903Z hint:
+2025-11-03T20:40:40.3582990Z hint: 	git config --global init.defaultBranch <name>
+2025-11-03T20:40:40.3585940Z hint:
+2025-11-03T20:40:40.3587789Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-11-03T20:40:40.3591049Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-11-03T20:40:40.3593681Z hint:
+2025-11-03T20:40:40.3594839Z hint: 	git branch -m <name>
+2025-11-03T20:40:40.3596185Z hint:
+2025-11-03T20:40:40.3597876Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2025-11-03T20:40:40.3599936Z Initialized empty Git repository in /home/runner/work/pilzno_crm/pilzno_crm/.git/
+2025-11-03T20:40:40.3603820Z [command]/usr/bin/git remote add origin https://github.com/bennyg83/pilzno_crm
+2025-11-03T20:40:40.3630479Z ##[endgroup]
+2025-11-03T20:40:40.3632015Z ##[group]Disabling automatic garbage collection
+2025-11-03T20:40:40.3634056Z [command]/usr/bin/git config --local gc.auto 0
+2025-11-03T20:40:40.3663572Z ##[endgroup]
+2025-11-03T20:40:40.3664908Z ##[group]Setting up auth
+2025-11-03T20:40:40.3669662Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-11-03T20:40:40.3699917Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-11-03T20:40:40.4046854Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-11-03T20:40:40.4080794Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-11-03T20:40:40.4307839Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-11-03T20:40:40.4352476Z ##[endgroup]
+2025-11-03T20:40:40.4355243Z ##[group]Fetching the repository
+2025-11-03T20:40:40.4364548Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +6061198ae99530b5803d77e09c89c758da4c5e64:refs/remotes/origin/main
+2025-11-03T20:40:43.4441622Z From https://github.com/bennyg83/pilzno_crm
+2025-11-03T20:40:43.4442919Z  * [new ref]         6061198ae99530b5803d77e09c89c758da4c5e64 -> origin/main
+2025-11-03T20:40:43.4480976Z ##[endgroup]
+2025-11-03T20:40:43.4481873Z ##[group]Determining the checkout info
+2025-11-03T20:40:43.4484591Z ##[endgroup]
+2025-11-03T20:40:43.4490082Z [command]/usr/bin/git sparse-checkout disable
+2025-11-03T20:40:43.4531007Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2025-11-03T20:40:43.4559022Z ##[group]Checking out the ref
+2025-11-03T20:40:43.4563262Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2025-11-03T20:40:43.7748796Z Switched to a new branch 'main'
+2025-11-03T20:40:43.7749638Z branch 'main' set up to track 'origin/main'.
+2025-11-03T20:40:43.7794012Z ##[endgroup]
+2025-11-03T20:40:43.7835595Z [command]/usr/bin/git log -1 --format=%H
+2025-11-03T20:40:43.7860323Z 6061198ae99530b5803d77e09c89c758da4c5e64
+2025-11-03T20:40:43.8094219Z ##[group]Run actions/setup-node@v4
+2025-11-03T20:40:43.8094531Z with:
+2025-11-03T20:40:43.8094713Z   node-version: 18
+2025-11-03T20:40:43.8094896Z   cache: npm
+2025-11-03T20:40:43.8095129Z   cache-dependency-path: frontend/package-lock.json
+2025-11-03T20:40:43.8095422Z   always-auth: false
+2025-11-03T20:40:43.8095614Z   check-latest: false
+2025-11-03T20:40:43.8095950Z   token: ***
+2025-11-03T20:40:43.8096135Z ##[endgroup]
+2025-11-03T20:40:43.9871350Z Found in cache @ /opt/hostedtoolcache/node/18.20.8/x64
+2025-11-03T20:40:43.9877673Z ##[group]Environment details
+2025-11-03T20:40:46.1923717Z node: v18.20.8
+2025-11-03T20:40:46.1924470Z npm: 10.8.2
+2025-11-03T20:40:46.1924748Z yarn: 1.22.22
+2025-11-03T20:40:46.1925993Z ##[endgroup]
+2025-11-03T20:40:46.1946975Z [command]/opt/hostedtoolcache/node/18.20.8/x64/bin/npm config get cache
+2025-11-03T20:40:46.5096820Z /home/runner/.npm
+2025-11-03T20:40:46.8469835Z Cache hit for: node-cache-Linux-x64-npm-8f61937923fb55e5bd18d10415c4e2afc22079cd8def31c47df45c013c56dc28
+2025-11-03T20:40:48.1783007Z Received 4194304 of 31905674 (13.1%), 4.0 MBs/sec
+2025-11-03T20:40:48.4793739Z Received 31905674 of 31905674 (100.0%), 23.4 MBs/sec
+2025-11-03T20:40:48.4794557Z Cache Size: ~30 MB (31905674 B)
+2025-11-03T20:40:48.4820744Z [command]/usr/bin/tar -xf /home/runner/work/_temp/adb2ba8a-4fef-46d1-ab3c-a4b7c37985cb/cache.tzst -P -C /home/runner/work/pilzno_crm/pilzno_crm --use-compress-program unzstd
+2025-11-03T20:40:48.5853504Z Cache restored successfully
+2025-11-03T20:40:48.5920110Z Cache restored from key: node-cache-Linux-x64-npm-8f61937923fb55e5bd18d10415c4e2afc22079cd8def31c47df45c013c56dc28
+2025-11-03T20:40:48.6134462Z ##[group]Run npm ci
+2025-11-03T20:40:48.6134735Z [36;1mnpm ci[0m
+2025-11-03T20:40:48.6250651Z shell: /usr/bin/bash -e {0}
+2025-11-03T20:40:48.6250913Z ##[endgroup]
+2025-11-03T20:40:53.8669833Z npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2025-11-03T20:40:53.9308548Z npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
+2025-11-03T20:40:53.9373933Z npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+2025-11-03T20:40:53.9915173Z npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2025-11-03T20:40:53.9975704Z npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+2025-11-03T20:40:55.5875240Z npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+2025-11-03T20:40:56.3667145Z npm warn deprecated @mui/base@5.0.0-beta.40-1: This package has been replaced by @base-ui-components/react
+2025-11-03T20:41:00.6826463Z 
+2025-11-03T20:41:00.6827210Z added 312 packages, and audited 313 packages in 12s
+2025-11-03T20:41:00.6827669Z 
+2025-11-03T20:41:00.6828185Z 67 packages are looking for funding
+2025-11-03T20:41:00.6829017Z   run `npm fund` for details
+2025-11-03T20:41:00.7003202Z 
+2025-11-03T20:41:00.7004099Z 3 vulnerabilities (2 moderate, 1 high)
+2025-11-03T20:41:00.7005211Z 
+2025-11-03T20:41:00.7005701Z To address all issues, run:
+2025-11-03T20:41:00.7006568Z   npm audit fix
+2025-11-03T20:41:00.7007252Z 
+2025-11-03T20:41:00.7007617Z Run `npm audit` for details.
+2025-11-03T20:41:00.7593012Z ##[group]Run npm run build:pages
+2025-11-03T20:41:00.7593324Z [36;1mnpm run build:pages[0m
+2025-11-03T20:41:00.7625760Z shell: /usr/bin/bash -e {0}
+2025-11-03T20:41:00.7625991Z env:
+2025-11-03T20:41:00.7626179Z   NODE_ENV: production
+2025-11-03T20:41:00.7626382Z   GITHUB_PAGES: true
+2025-11-03T20:41:00.7626723Z   VITE_API_BASE_URL:  ***
+2025-11-03T20:41:00.7626943Z ##[endgroup]
+2025-11-03T20:41:00.9019850Z 
+2025-11-03T20:41:00.9020633Z > pilzno-synagogue-frontend@1.0.0 build:pages
+2025-11-03T20:41:00.9021359Z > tsc && vite build --mode pages
+2025-11-03T20:41:00.9021671Z 
+2025-11-03T20:41:08.1796310Z [36mvite v5.4.19 [32mbuilding for pages...[36m[39m
+2025-11-03T20:41:08.2376442Z transforming...
+2025-11-03T20:41:19.2350807Z [32m✓[39m 11813 modules transformed.
+2025-11-03T20:41:20.0522372Z rendering chunks...
+2025-11-03T20:41:20.4792077Z computing gzip size...
+2025-11-03T20:41:20.5241532Z [2mdist/[22m[32mindex.html                [39m[1m[2m  1.12 kB[22m[1m[22m[2m │ gzip:   0.52 kB[22m
+2025-11-03T20:41:20.5243759Z [2mdist/[22m[2massets/[22m[36mindex-BlXdgHz2.js  [39m[1m[33m977.27 kB[39m[22m[2m │ gzip: 298.48 kB[22m[2m │ map: 4,559.98 kB[22m
+2025-11-03T20:41:20.5244779Z [33m
+2025-11-03T20:41:20.5245935Z (!) Some chunks are larger than 500 kB after minification. Consider:
+2025-11-03T20:41:20.5246787Z - Using dynamic import() to code-split the application
+2025-11-03T20:41:20.5248200Z - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+2025-11-03T20:41:20.5249719Z - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+2025-11-03T20:41:20.5259587Z [32m✓ built in 12.32s[39m
+2025-11-03T20:41:20.6739705Z ##[group]Run touch .nojekyll
+2025-11-03T20:41:20.6740186Z [36;1mtouch .nojekyll[0m
+2025-11-03T20:41:20.6740640Z [36;1mecho ".nojekyll file created/verified"[0m
+2025-11-03T20:41:20.6780408Z shell: /usr/bin/bash -e {0}
+2025-11-03T20:41:20.6780651Z ##[endgroup]
+2025-11-03T20:41:20.6843311Z .nojekyll file created/verified
+2025-11-03T20:41:20.6905121Z ##[group]Run actions/upload-pages-artifact@v3
+2025-11-03T20:41:20.6905425Z with:
+2025-11-03T20:41:20.6905603Z   path: frontend/dist/
+2025-11-03T20:41:20.6905829Z   retention-days: 7
+2025-11-03T20:41:20.6906021Z   name: github-pages
+2025-11-03T20:41:20.6906216Z ##[endgroup]
+2025-11-03T20:41:20.6979720Z ##[group]Run echo ::group::Archive artifact
+2025-11-03T20:41:20.6980021Z [36;1mecho ::group::Archive artifact[0m
+2025-11-03T20:41:20.6980259Z [36;1mtar \[0m
+2025-11-03T20:41:20.6980486Z [36;1m  --dereference --hard-dereference \[0m
+2025-11-03T20:41:20.6980773Z [36;1m  --directory "$INPUT_PATH" \[0m
+2025-11-03T20:41:20.6981052Z [36;1m  -cvf "$RUNNER_TEMP/artifact.tar" \[0m
+2025-11-03T20:41:20.6981317Z [36;1m  --exclude=.git \[0m
+2025-11-03T20:41:20.6981540Z [36;1m  --exclude=.github \[0m
+2025-11-03T20:41:20.6981758Z [36;1m  .[0m
+2025-11-03T20:41:20.6981943Z [36;1mecho ::endgroup::[0m
+2025-11-03T20:41:20.7148379Z shell: /usr/bin/sh -e {0}
+2025-11-03T20:41:20.7148677Z env:
+2025-11-03T20:41:20.7148892Z   INPUT_PATH: frontend/dist/
+2025-11-03T20:41:20.7149146Z ##[endgroup]
+2025-11-03T20:41:20.7214493Z ##[group]Archive artifact
+2025-11-03T20:41:20.7226898Z ./
+2025-11-03T20:41:20.7227221Z ./.nojekyll
+2025-11-03T20:41:20.7227532Z ./index.html
+2025-11-03T20:41:20.7227829Z ./assets/
+2025-11-03T20:41:20.7228289Z ./assets/index-BlXdgHz2.js.map
+2025-11-03T20:41:20.7265434Z ./assets/index-BlXdgHz2.js
+2025-11-03T20:41:20.7273674Z ./pilzno_logo.png
+2025-11-03T20:41:20.7276450Z ##[endgroup]
+2025-11-03T20:41:20.7339411Z ##[group]Run actions/upload-artifact@v4
+2025-11-03T20:41:20.7339668Z with:
+2025-11-03T20:41:20.7339839Z   name: github-pages
+2025-11-03T20:41:20.7340075Z   path: /home/runner/work/_temp/artifact.tar
+2025-11-03T20:41:20.7340346Z   retention-days: 7
+2025-11-03T20:41:20.7340554Z   if-no-files-found: error
+2025-11-03T20:41:20.7340776Z   compression-level: 6
+2025-11-03T20:41:20.7340979Z   overwrite: false
+2025-11-03T20:41:20.7341177Z   include-hidden-files: false
+2025-11-03T20:41:20.7341422Z ##[endgroup]
+2025-11-03T20:41:20.9602410Z With the provided path, there will be 1 file uploaded
+2025-11-03T20:41:20.9608768Z Artifact name is valid!
+2025-11-03T20:41:20.9610024Z Root directory input is valid!
+2025-11-03T20:41:21.2887786Z Beginning upload of artifact content to blob storage
+2025-11-03T20:41:22.2319918Z Uploaded bytes 1371470
+2025-11-03T20:41:22.3148243Z Finished uploading artifact content to blob storage!
+2025-11-03T20:41:22.3150576Z SHA256 digest of uploaded artifact zip is a36ad6e11c5e88bfce0afd0986a694337e9a9df97db48c93ccc07c46f32f3dbd
+2025-11-03T20:41:22.3152484Z Finalizing artifact upload
+2025-11-03T20:41:22.4734322Z Artifact github-pages.zip successfully finalized. Artifact ID 4454166907
+2025-11-03T20:41:22.4735643Z Artifact github-pages has been successfully uploaded! Final size is 1371470 bytes. Artifact ID is 4454166907
+2025-11-03T20:41:22.4742481Z Artifact download URL: https://github.com/bennyg83/pilzno_crm/actions/runs/19048684522/artifacts/4454166907
+2025-11-03T20:41:22.4895039Z Post job cleanup.
+2025-11-03T20:41:22.6445033Z Cache hit occurred on the primary key node-cache-Linux-x64-npm-8f61937923fb55e5bd18d10415c4e2afc22079cd8def31c47df45c013c56dc28, not saving cache.
+2025-11-03T20:41:22.6563421Z Post job cleanup.
+2025-11-03T20:41:22.7526772Z [command]/usr/bin/git version
+2025-11-03T20:41:22.7563457Z git version 2.51.2
+2025-11-03T20:41:22.7608202Z Temporarily overriding HOME='/home/runner/work/_temp/2512e1d1-cf0b-4a60-a579-fe432cfe0aeb' before making global git config changes
+2025-11-03T20:41:22.7609707Z Adding repository directory to the temporary git global config as a safe directory
+2025-11-03T20:41:22.7615175Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/pilzno_crm/pilzno_crm
+2025-11-03T20:41:22.7651249Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-11-03T20:41:22.7684187Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-11-03T20:41:22.7920461Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-11-03T20:41:22.7946095Z http.https://github.com/.extraheader
+2025-11-03T20:41:22.7958468Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2025-11-03T20:41:22.7993720Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-11-03T20:41:22.8346788Z Cleaning up orphan processes

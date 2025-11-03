@@ -1,0 +1,5 @@
+2025-11-03T20:41:27.5620000Z Requested labels: ubuntu-latest
+2025-11-03T20:41:27.5620000Z Job defined at: bennyg83/pilzno_crm/.github/workflows/deploy-pages.yml@refs/heads/main
+2025-11-03T20:41:27.5620000Z Waiting for a runner to pick up this job...
+2025-11-03T20:41:28.0300000Z Job is about to start running on the hosted runner: GitHub Actions 1000000138
+2025-11-03T20:41:28.0300000Z Job is waiting for a hosted runner to come online.
