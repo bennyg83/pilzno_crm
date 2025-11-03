@@ -47,6 +47,12 @@ jobs:
           # Never hardcode Tailscale infrastructure in public repos
           VITE_API_BASE_URL: ${{ secrets.BACKEND_API_URL }}
           
+      - name: Ensure .nojekyll file exists
+        working-directory: ./frontend/dist
+        run: |
+          touch .nojekyll
+          echo ".nojekyll file created/verified"
+          
       - name: Upload build artifacts
         uses: actions/upload-pages-artifact@v3
         with:
