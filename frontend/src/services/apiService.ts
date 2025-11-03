@@ -8,8 +8,14 @@ class ApiService {
   private api: AxiosInstance
 
   constructor() {
+    // Ensure API_BASE_URL doesn't have trailing slash, then append /api
+    const baseUrl = API_BASE_URL.replace(/\/$/, '')
+    const apiBaseUrl = `${baseUrl}/api`
+    
+    console.log('🔧 ApiService: Initializing with base URL:', apiBaseUrl)
+    
     this.api = axios.create({
-      baseURL: `${API_BASE_URL}/api`,
+      baseURL: apiBaseUrl,
       headers: {
         'Content-Type': 'application/json',
       },

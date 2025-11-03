@@ -12,7 +12,12 @@ const getApiBaseUrl = (): string => {
   // 1. Check environment variable (set in GitHub Actions or .env file)
   // This can be your Tailscale URL (e.g., http://your-tailscale-ip:3002)
   if (import.meta.env.VITE_API_BASE_URL) {
-    const url = import.meta.env.VITE_API_BASE_URL
+    let url = import.meta.env.VITE_API_BASE_URL.trim()
+    // Ensure URL has protocol (default to http:// if missing)
+    if (!url.match(/^https?:\/\//)) {
+      console.warn('⚠️ VITE_API_BASE_URL missing protocol, defaulting to http://')
+      url = `http://${url}`
+    }
     // Ensure URL is normalized (no trailing slash)
     return url.replace(/\/$/, '')
   }

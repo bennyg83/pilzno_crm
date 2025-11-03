@@ -59,7 +59,7 @@ const LoginPage: React.FC = () => {
           {/* Logo and Title */}
           <Box sx={{ mb: 4 }}>
             <img 
-              src="/pilzno_logo.png" 
+              src={`${import.meta.env.BASE_URL || '/'}pilzno_logo.png`}
               alt="Pilzno Synagogue" 
               style={{ width: '120px', height: '120px', marginBottom: '16px' }}
             />
