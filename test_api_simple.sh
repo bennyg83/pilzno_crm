@@ -10,7 +10,7 @@ curl -s http://localhost:3002/health
 echo -e "\n\n2. Testing login..."
 LOGIN_RESPONSE=$(curl -s -X POST http://localhost:3002/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@pilzno.org","password":"admin123"}')
+  -d '{"email":"admin@pilzno.org","password":"'${ADMIN_PASSWORD:-YOUR_PASSWORD_HERE}'"}')
 
 echo "Login response:"
 echo $LOGIN_RESPONSE

@@ -15,16 +15,24 @@ async function resetPassword() {
       process.exit(1);
     }
     
-    // Hash the new password: pilzno2024
+    // Get password from environment variable or command line argument
+    const newPassword = process.env.ADMIN_PASSWORD || process.argv[2];
+    if (!newPassword) {
+      console.error('❌ Password required. Set ADMIN_PASSWORD env var or pass as argument.');
+      console.error('   Usage: ADMIN_PASSWORD=yourpassword node reset-admin-password.js');
+      console.error('   Or: node reset-admin-password.js yourpassword');
+      process.exit(1);
+    }
+    
     const saltRounds = 12;
-    const hashedPassword = await bcrypt.hash('pilzno2024', saltRounds);
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
     
     user.password = hashedPassword;
     await userRepository.save(user);
     
     console.log('✅ Password reset successfully!');
     console.log('   Email: admin@pilzno.org');
-    console.log('   Password: pilzno2024');
+    console.log('   Password: [REDACTED - check your environment variable]');
     
     await AppDataSource.destroy();
     process.exit(0);

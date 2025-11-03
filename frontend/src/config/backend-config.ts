@@ -17,22 +17,17 @@ const getApiBaseUrl = (): string => {
   
   // 2. If running on GitHub Pages, use Tailscale URL
   // The URL should be set in GitHub Actions secrets or environment variables
+  // CRITICAL: Never hardcode Tailscale IPs or domains in public repos
+  // Use GitHub Secrets: Settings → Secrets → Actions → BACKEND_API_URL
   if (isGitHubPages) {
-    // Try to use HTTPS with Tailscale MagicDNS first (recommended for Mixed Content)
-    // Fallback to HTTP IP if HTTPS doesn't work
-    // Tailscale MagicDNS domain: crm-mini.tail34e202.ts.net
-    // IP: 100.74.73.107 (HTTP fallback: http://100.74.73.107:3002)
+    // If no environment variable is set, show error instead of using hardcoded values
+    console.error('❌ GitHub Pages detected but no VITE_API_BASE_URL environment variable.')
+    console.error('   Set BACKEND_API_URL secret in GitHub Actions with your Tailscale URL.')
+    console.error('   Example: https://your-machine.tailscale.ts.net:3002')
     
-    // Prefer HTTPS if available (fixes Mixed Content)
-    // If GitHub Actions secret is set, use it (could be either HTTP or HTTPS)
-    // Otherwise, try HTTPS first
-    console.warn('⚠️ GitHub Pages detected but no VITE_API_BASE_URL environment variable. Set BACKEND_API_URL secret in GitHub Actions.')
-    console.log('🔐 Attempting HTTPS first (https://crm-mini.tail34e202.ts.net:3002)')
-    
-    // Use HTTPS to avoid Mixed Content issues
-    // Note: Tailscale MagicDNS should support HTTPS, but may require cert setup
-    // If HTTPS fails, browsers will fallback or show warning
-    return 'https://crm-mini.tail34e202.ts.net:3002'
+    // Return a placeholder that will fail - forces proper configuration
+    // This prevents accidentally exposing Tailscale infrastructure
+    return 'https://configure-tailscale-url-in-github-secrets'
   }
   
   // 3. Default: Local development

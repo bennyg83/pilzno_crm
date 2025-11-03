@@ -41,10 +41,11 @@ jobs:
           NODE_ENV: production
           GITHUB_PAGES: true
           # Tailscale URL for backend connection
-          # Set this secret in GitHub: Settings → Secrets → Actions → BACKEND_API_URL
-          # Recommended: https://crm-mini.tail34e202.ts.net:3002 (HTTPS via Tailscale MagicDNS)
-          # Alternative: http://100.74.73.107:3002 (HTTP IP, works but has Mixed Content warning)
-          VITE_API_BASE_URL: ${{ secrets.BACKEND_API_URL || 'https://crm-mini.tail34e202.ts.net:3002' }}
+          # CRITICAL: Set BACKEND_API_URL secret in GitHub: Settings → Secrets → Actions
+          # Format: https://your-machine.tailscale.ts.net:3002 (HTTPS recommended)
+          # Or: http://your-tailscale-ip:3002 (HTTP, has Mixed Content warning)
+          # Never hardcode Tailscale infrastructure in public repos
+          VITE_API_BASE_URL: ${{ secrets.BACKEND_API_URL }}
           
       - name: Upload build artifacts
         uses: actions/upload-pages-artifact@v3

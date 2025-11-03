@@ -28,3 +28,18 @@ Thumbs.db
 # Backup directories (may contain nested git repositories)
 backups/
 *.tar.gz
+
+# Sensitive configuration files
+backend/.env
+frontend/.env
+.env.local
+.env.production
+.env.development
+
+# Scripts with sensitive data
+scripts/reset-admin-password.js
+backend/src/scripts/reset-password.ts
+
+# Test files with credentials
+test_api.sh
+test_api_simple.sh
