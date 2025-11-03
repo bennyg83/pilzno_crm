@@ -30,7 +30,13 @@ app.use((req, res, next) => {
 });
 
 // Security middleware
-app.use(helmet());
+app.use(helmet({
+  // Allow connections from GitHub Pages (HTTPS) to HTTP backend
+  // This is necessary for Mixed Content scenarios
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  crossOriginEmbedderPolicy: false
+}));
+
 // CORS configuration - allows local development and GitHub Pages
 // Supports Tailscale URLs via environment variable
 const allowedOrigins = [
@@ -38,6 +44,7 @@ const allowedOrigins = [
   'http://127.0.0.1:3003',
   'http://localhost:3000',
   'https://bennyg83.github.io',
+  'https://bennyg83.github.io/pilzno_crm',
   ...(process.env.TAILSCALE_URL ? [process.env.TAILSCALE_URL.replace(/\/$/, '')] : []),
   ...(process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(',') : [])
 ].filter(Boolean);
@@ -49,8 +56,12 @@ app.use(cors({
       return callback(null, true);
     }
     
-    // Check if origin is allowed
-    if (allowedOrigins.some(allowed => origin.startsWith(allowed))) {
+    // Check if origin is allowed (support both with and without trailing slash)
+    const normalizedOrigin = origin.replace(/\/$/, '');
+    if (allowedOrigins.some(allowed => {
+      const normalizedAllowed = allowed.replace(/\/$/, '');
+      return normalizedOrigin.startsWith(normalizedAllowed);
+    })) {
       return callback(null, true);
     }
     
@@ -64,6 +75,14 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   exposedHeaders: ['Authorization']
 }));
+
+// Add Private Network Access header for browsers that require it
+app.use((req, res, next) => {
+  // Allow private network access for Tailscale IPs
+  // This helps with Chrome's Private Network Access policy
+  res.setHeader('Access-Control-Allow-Private-Network', 'true');
+  next();
+});
 
 // Body parsing - must come before debug middleware
 app.use(express.json({ limit: '10mb' }));
