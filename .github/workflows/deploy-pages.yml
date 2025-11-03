@@ -42,8 +42,9 @@ jobs:
           GITHUB_PAGES: true
           # Tailscale URL for backend connection
           # CRITICAL: Set BACKEND_API_URL secret in GitHub: Settings → Secrets → Actions
-          # Format: https://your-machine.tailscale.ts.net:3002 (HTTPS recommended)
-          # Or: http://your-tailscale-ip:3002 (HTTP, has Mixed Content warning)
+          # IMPORTANT: Backend is HTTP-only, so use http:// not https://
+          # Format: http://your-tailscale-ip:3002 (HTTP required)
+          # Example: http://100.74.73.107:3002
           # Never hardcode Tailscale infrastructure in public repos
           VITE_API_BASE_URL: ${{ secrets.BACKEND_API_URL }}
           

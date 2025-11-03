@@ -12,22 +12,26 @@ const getApiBaseUrl = (): string => {
   // 1. Check environment variable (set in GitHub Actions or .env file)
   // This can be your Tailscale URL (e.g., http://your-tailscale-ip:3002)
   if (import.meta.env.VITE_API_BASE_URL) {
-    return import.meta.env.VITE_API_BASE_URL
+    const url = import.meta.env.VITE_API_BASE_URL
+    // Ensure URL is normalized (no trailing slash)
+    return url.replace(/\/$/, '')
   }
   
-  // 2. If running on GitHub Pages, use Tailscale URL
+  // 2. If running on GitHub Pages, show error
   // The URL should be set in GitHub Actions secrets or environment variables
   // CRITICAL: Never hardcode Tailscale IPs or domains in public repos
   // Use GitHub Secrets: Settings → Secrets → Actions → BACKEND_API_URL
+  // NOTE: Backend is HTTP-only, so use http:// not https://
   if (isGitHubPages) {
     // If no environment variable is set, show error instead of using hardcoded values
     console.error('❌ GitHub Pages detected but no VITE_API_BASE_URL environment variable.')
     console.error('   Set BACKEND_API_URL secret in GitHub Actions with your Tailscale URL.')
-    console.error('   Example: https://your-machine.tailscale.ts.net:3002')
+    console.error('   Format: http://your-tailscale-ip:3002 (HTTP, not HTTPS - backend is HTTP-only)')
+    console.error('   Example: http://100.74.73.107:3002')
     
     // Return a placeholder that will fail - forces proper configuration
     // This prevents accidentally exposing Tailscale infrastructure
-    return 'https://configure-tailscale-url-in-github-secrets'
+    return 'http://configure-tailscale-url-in-github-secrets'
   }
   
   // 3. Default: Local development
