@@ -31,6 +31,13 @@
 **Password:** `pilzno2024`  
 **Role:** `super_admin`
 
+### ✅ Password Verification Test
+
+**Test Date**: November 9, 2025  
+**Test Result**: ✅ **SUCCESS** - Login successful
+
+The password `pilzno2024` was tested via API login endpoint and **confirmed working**.
+
 ## Notes
 
 - Password is stored as a bcrypt hash in the database (cannot be read directly)
