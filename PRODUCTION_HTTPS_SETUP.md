@@ -115,11 +115,77 @@ For a production website accessible from anywhere, the backend must use HTTPS.
 
 ---
 
-## ✅ Option 3: Cloudflare Tunnel (Easiest for Production)
+## ✅ Option 3: ngrok (NO DOMAIN NEEDED - Recommended!)
 
 ### Requirements
-- Cloudflare account (free)
+- ngrok account (free)
+- ngrok installed
+
+### Steps
+
+1. **Sign up for ngrok (Free):**
+   - Go to: https://dashboard.ngrok.com/signup
+   - Create free account
+   - Get your authtoken from dashboard
+
+2. **Install ngrok:**
+   ```powershell
+   # Download from: https://ngrok.com/download
+   # Or use Chocolatey
+   choco install ngrok
+   ```
+
+3. **Authenticate:**
+   ```powershell
+   ngrok config add-authtoken YOUR_AUTHTOKEN
+   ```
+
+4. **Start Tunnel (HTTPS automatically):**
+   ```powershell
+   ngrok http 3002
+   ```
+   
+   **Output will show:**
+   ```
+   Forwarding  https://abc123.ngrok-free.app -> http://localhost:3002
+   ```
+   
+   **Copy the HTTPS URL** (e.g., `https://abc123.ngrok-free.app`)
+
+5. **For Permanent URL (Free tier):**
+   - In ngrok dashboard, go to "Cloud Edge" → "Domains"
+   - You can reserve a free subdomain: `pilzno-backend.ngrok-free.app`
+   - Then run: `ngrok http 3002 --domain=pilzno-backend.ngrok-free.app`
+
+6. **Update GitHub Secret:**
+   - Go to: https://github.com/bennyg83/pilzno_crm/settings/secrets/actions
+   - Update `BACKEND_API_URL` to: `https://your-ngrok-url.ngrok-free.app`
+   - **Note**: Free tier URLs change on restart unless you reserve a domain
+
+7. **Keep ngrok Running:**
+   - Run ngrok in a persistent terminal or as a service
+   - Or use ngrok's service mode for Windows
+
+### Pros
+- ✅ **NO DOMAIN NEEDED** (free subdomain provided)
+- ✅ Free tier available
+- ✅ Automatic HTTPS
+- ✅ Works immediately
+- ✅ No port forwarding needed
+- ✅ Works behind NAT/firewall
+
+### Cons
+- ⚠️ Free tier: URL changes on restart (unless you reserve domain)
+- ⚠️ Free tier: May have connection limits
+- ⚠️ Requires keeping ngrok process running
+
+---
+
+## ✅ Option 3B: Cloudflare Tunnel with TryCloudflare (NO DOMAIN NEEDED)
+
+### Requirements
 - Cloudflare Tunnel installed
+- **NO Cloudflare account needed!**
 
 ### Steps
 
@@ -127,6 +193,64 @@ For a production website accessible from anywhere, the backend must use HTTPS.
    ```powershell
    # Download from: https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation/
    # Or use Chocolatey
+   choco install cloudflared
+   ```
+
+2. **Start Tunnel (NO authentication needed):**
+   ```powershell
+   cloudflared tunnel --url http://localhost:3002
+   ```
+   
+   **Output will show:**
+   ```
+   +--------------------------------------------------------------------------------------------+
+   |  Your quick Tunnel has been created! Visit it at (it may take some time to be reachable): |
+   |  https://abc123-def456-ghi789.trycloudflare.com                                            |
+   +--------------------------------------------------------------------------------------------+
+   ```
+   
+   **Copy the HTTPS URL** (e.g., `https://abc123-def456-ghi789.trycloudflare.com`)
+
+3. **Update GitHub Secret:**
+   - Go to: https://github.com/bennyg83/pilzno_crm/settings/secrets/actions
+   - Update `BACKEND_API_URL` to: `https://your-trycloudflare-url.trycloudflare.com`
+
+4. **Keep Tunnel Running:**
+   - Run cloudflared in a persistent terminal
+   - Or create a Windows service
+
+### Pros
+- ✅ **NO DOMAIN NEEDED**
+- ✅ **NO ACCOUNT NEEDED**
+- ✅ Free
+- ✅ Automatic HTTPS
+- ✅ Works immediately
+- ✅ No port forwarding needed
+
+### Cons
+- ⚠️ URL changes every time you restart (not persistent)
+- ⚠️ Requires keeping cloudflared process running
+- ⚠️ Temporary URLs (for testing/development)
+
+### For Persistent URL (Requires Cloudflare Account + Domain):
+If you want a permanent URL, you'll need:
+- Cloudflare account (free)
+- Domain name (can use free subdomain from Cloudflare)
+- Then follow Option 3C below
+
+---
+
+## ✅ Option 3C: Cloudflare Tunnel with Domain (If You Get a Domain Later)
+
+### Requirements
+- Cloudflare account (free)
+- Domain name (or Cloudflare free subdomain)
+- Cloudflare Tunnel installed
+
+### Steps
+
+1. **Install Cloudflare Tunnel:**
+   ```powershell
    choco install cloudflared
    ```
 
@@ -167,9 +291,10 @@ For a production website accessible from anywhere, the backend must use HTTPS.
 - ✅ Works behind NAT/firewall
 - ✅ Automatic HTTPS
 - ✅ No certificate setup
+- ✅ Permanent URL
 
 ### Cons
-- ⚠️ Requires domain name (or use Cloudflare subdomain)
+- ⚠️ Requires domain name
 - ⚠️ Requires Cloudflare account
 
 ---
@@ -219,24 +344,34 @@ For a production website accessible from anywhere, the backend must use HTTPS.
 
 ---
 
-## 🎯 Recommended Solution
+## 🎯 Recommended Solution (NO DOMAIN NEEDED)
 
-For your use case (production website accessible from anywhere), I recommend:
+For your use case (production website accessible from anywhere **without a domain**), I recommend:
 
-1. **Quick Fix**: Cloudflare Tunnel (Option 3)
-   - Fastest setup
-   - No port forwarding
-   - Works immediately
+### 🥇 Best Option: ngrok (Option 3)
+- ✅ **NO DOMAIN NEEDED** - Free subdomain provided
+- ✅ Fastest setup (5 minutes)
+- ✅ Automatic HTTPS
+- ✅ Works immediately
+- ✅ Free tier available
+- ⚠️ Free tier: URL changes unless you reserve domain
+- ⚠️ Need to keep ngrok running
 
-2. **Long-term**: Reverse Proxy with Let's Encrypt (Option 2)
-   - Most professional
-   - Full control
-   - Standard setup
+### 🥈 Alternative: Cloudflare Tunnel TryCloudflare (Option 3B)
+- ✅ **NO DOMAIN NEEDED**
+- ✅ **NO ACCOUNT NEEDED**
+- ✅ Fastest setup (2 minutes)
+- ✅ Automatic HTTPS
+- ⚠️ URL changes every restart (not persistent)
+- ⚠️ Need to keep cloudflared running
 
-3. **Simplest**: Deploy to Cloud (Option 4)
-   - Easiest to maintain
-   - No server management
-   - Automatic HTTPS
+### 🥉 Long-term: Deploy to Cloud (Option 4)
+- ✅ **NO DOMAIN NEEDED** - Cloud provider gives you one
+- ✅ Easiest to maintain
+- ✅ No server management
+- ✅ Automatic HTTPS
+- ✅ Permanent URL
+- ⚠️ Database needs to be accessible (or use cloud database)
 
 ---
 
