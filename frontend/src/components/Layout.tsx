@@ -72,7 +72,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         {/* Logo Section */}
         <Box sx={{ p: 2, textAlign: 'center', borderBottom: '1px solid #E0E0E0' }}>
           <img 
-            src="/pilzno_logo.png" 
+            src={`${import.meta.env.BASE_URL || '/'}pilzno_logo.png`}
             alt="Pilzno Synagogue" 
             style={{ width: '80px', height: '80px', marginBottom: '8px' }}
           />
