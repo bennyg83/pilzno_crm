@@ -10,7 +10,14 @@ interface PrivateRouteProps {
 export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const { isAuthenticated, isLoading, user, token } = useAuth()
 
-  console.log('🛡️ PrivateRoute check:', { isAuthenticated, isLoading, hasUser: !!user, hasToken: !!token })
+  console.log('🛡️ PrivateRoute check:', {
+    isAuthenticated,
+    isLoading,
+    hasUser: !!user,
+    hasToken: !!token,
+    user: user ? { id: user.id, email: user.email } : null,
+    tokenLength: token?.length || 0
+  })
 
   if (isLoading) {
     console.log('⏳ PrivateRoute: Still loading...')

@@ -50,23 +50,36 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Initialize authentication state
   useEffect(() => {
     const initAuth = async () => {
+      console.log('🔍 AuthContext: Initializing authentication state...')
       const storedToken = localStorage.getItem('synagogue_token')
       
       if (storedToken) {
+        console.log('🔑 Found stored token, verifying with backend...')
         try {
           apiService.setAuthToken(storedToken)
           const response = await apiService.auth.verify()
+          console.log('✅ Token verified successfully:', { userId: response.user.id, email: response.user.email })
           setUser(response.user)
           setToken(storedToken)
-        } catch (error) {
-          console.error('Token verification failed:', error)
+        } catch (error: any) {
+          console.error('❌ Token verification failed:', error)
+          console.error('   Error details:', {
+            message: error?.message,
+            response: error?.response?.data,
+            status: error?.response?.status,
+            url: error?.config?.url
+          })
+          console.log('🧹 Clearing invalid token from localStorage')
           localStorage.removeItem('synagogue_token')
           setToken(null)
           setUser(null)
         }
+      } else {
+        console.log('ℹ️ No stored token found, user needs to log in')
       }
       
       setIsLoading(false)
+      console.log('✅ AuthContext: Initialization complete')
     }
 
     initAuth()
